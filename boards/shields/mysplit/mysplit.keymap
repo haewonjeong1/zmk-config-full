@@ -1,0 +1,55 @@
+// ============================================================
+// mysplit.keymap  - keymap.h + 숫자패드 코드를 ZMK 문법으로 옮긴 것
+// 순서는 mysplit.dtsi의 matrix transform과 정확히 같아야 함
+// (왼쪽 → 오른쪽, 위 → 아래)
+// ============================================================
+#include <behaviors.dtsi>
+#include <dt-bindings/zmk/keys.h>
+#include <dt-bindings/zmk/bt.h>
+
+/ {
+    keymap {
+        compatible = "zmk,keymap";
+
+        base_layer {
+            display-name = "Base";
+            bindings = <
+&kp ESC   &kp F1   &kp F2   &kp F3   &kp F4   &kp F5        &kp F6  &kp F7  &kp F8  &kp F9    &kp F10   &kp F11   &kp F12   &kp DEL
+&kp GRAVE &kp N1   &kp N2   &kp N3   &kp N4   &kp N5        &kp N7  &kp N8  &kp N9  &kp N0    &kp MINUS &kp EQUAL &kp BSPC
+&kp TAB   &kp Q    &kp W    &kp E    &kp R    &kp N6        &kp Y   &kp U   &kp I   &kp O     &kp P     &kp LBKT  &kp RBKT  &kp BSLH
+&kp CAPS  &kp A    &kp S    &kp D    &kp F    &kp T         &kp H   &kp J   &kp K   &kp L     &kp SEMI  &kp SQT   &kp RET
+&kp LSHFT &kp Z    &kp X    &kp C    &kp V    &kp G         &kp B   &kp N   &kp M   &kp COMMA &kp DOT   &kp FSLH  &kp RSHFT &kp UP
+&kp LCTRL &kp LGUI &kp LALT &kp SPACE                                       &kp SPACE &kp RALT  &mo 1     &kp RCTRL &kp LEFT  &kp DOWN
+// 숫자패드
+&kp HOME   &kp END      &kp PG_UP     &kp PG_DN
+&kp KP_NUM &kp KP_SLASH &kp KP_MULTIPLY &kp KP_MINUS
+&kp KP_N7  &kp KP_N8    &kp KP_N9     &kp KP_PLUS
+&kp KP_N4  &kp KP_N5    &kp KP_N6
+&kp KP_N1  &kp KP_N2    &kp KP_N3
+&kp RIGHT  &kp KP_N0    &kp KP_DOT    &kp KP_ENTER
+            >;
+        };
+
+        // Fn 레이어: 원래 비어 있었는데, ZMK에선 블루투스 제어 키가 꼭 필요해서 추가함
+        //   Fn + F1~F5 : 연결 기기 1~5번 선택
+        //   Fn + ESC   : 현재 선택된 기기 페어링 지우기
+        fn_layer {
+            display-name = "Fn";
+            bindings = <
+&bt BT_CLR &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3 &bt BT_SEL 4   &trans &trans &trans &trans &trans &trans &trans &trans
+&trans     &trans       &trans       &trans       &trans       &trans         &trans &trans &trans &trans &trans &trans &trans
+&trans     &trans       &trans       &trans       &trans       &trans         &trans &trans &trans &trans &trans &trans &trans &trans
+&trans     &trans       &trans       &trans       &trans       &trans         &trans &trans &trans &trans &trans &trans &trans
+&trans     &trans       &trans       &trans       &trans       &trans         &trans &trans &trans &trans &trans &trans &trans &trans
+&trans     &trans       &trans       &trans                                                 &trans &trans &trans &trans &trans &trans
+// 숫자패드
+&trans &trans &trans &trans
+&trans &trans &trans &trans
+&trans &trans &trans &trans
+&trans &trans &trans
+&trans &trans &trans
+&trans &trans &trans &trans
+            >;
+        };
+    };
+};

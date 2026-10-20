@@ -1,0 +1,29 @@
+# 오른쪽 = 마스터(central)
+if SHIELD_MYSPLIT_RIGHT
+
+# 16자 미만! PC 블루투스 목록에 보이는 이름
+config ZMK_KEYBOARD_NAME
+    default "SplitKB"
+
+config ZMK_SPLIT_ROLE_CENTRAL
+    default y
+
+# 슬레이브 2개 (왼쪽 + 숫자패드)
+config ZMK_SPLIT_BLE_CENTRAL_PERIPHERALS
+    default 2
+
+# 슬레이브 2개 + PC/폰 5대 = 7
+config BT_MAX_CONN
+    default 7
+
+config BT_MAX_PAIRED
+    default 7
+
+endif
+
+if SHIELD_MYSPLIT_LEFT || SHIELD_MYSPLIT_RIGHT || SHIELD_MYSPLIT_NUMPAD
+
+config ZMK_SPLIT
+    default y
+
+endif

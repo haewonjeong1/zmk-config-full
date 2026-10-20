@@ -1,0 +1,69 @@
+// ============================================================
+// mysplit.dtsi  - 세 보드(왼쪽/오른쪽/숫자패드) 공통 정의
+//
+// 핀 이름은 &pro_micro 번호 기준 (nice!nano 실크 → pro_micro 번호)
+//   006=1  008=0  017=2  020=3  022=4  024=5
+//   100=6  011=7  104=8  106=9  031=21 029=20 002=19 115=18
+//
+// 다이오드: 기존 Arduino 코드가 "Row를 LOW로 내리고 Col을 풀업으로 읽는" 방식이라
+//   전류가 Col → Row로 흐르는 구조 = ZMK의 "col2row".
+//   만약 아무 키도 안 눌리면 다이오드가 반대 방향인 것이니
+//   diode-direction을 "row2col"로 바꾸고, GPIO_PULL_DOWN을 row 대신 col 쪽에 붙이세요.
+// ============================================================
+#include <dt-bindings/zmk/matrix_transform.h>
+
+/ {
+    chosen {
+        zmk,kscan = &kscan0;
+        zmk,physical-layout = &physical_layout0;
+    };
+
+    kscan0: kscan0 {
+        compatible = "zmk,kscan-gpio-matrix";
+        diode-direction = "col2row";
+        wakeup-source;
+
+        // Row0~5 : 006, 008, 017, 020, 022, 024 (세 보드 공통)
+        row-gpios
+            = <&pro_micro 1 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+            , <&pro_micro 0 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+            , <&pro_micro 2 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+            , <&pro_micro 3 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+            , <&pro_micro 4 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+            , <&pro_micro 5 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+            ;
+        // col-gpios는 각 보드 .overlay 파일에서 따로 정의
+    };
+
+    // 전체 키 배치: 왼쪽 col 0~5, 오른쪽 col 6~13 (col-offset 6),
+    //                숫자패드 col 14~17 (col-offset 14)
+    // 숫자패드는 맨 뒤에 붙여서, 기존 왼쪽/오른쪽 키 순서는 그대로 유지
+    // 스위치가 없는 자리(KC_NO)는 뺐음
+    default_transform: keymap_transform0 {
+        compatible = "zmk,matrix-transform";
+        columns = <18>;
+        rows = <6>;
+        map = <
+// 왼쪽                                              | 오른쪽
+RC(0,0) RC(0,1) RC(0,2) RC(0,3) RC(0,4) RC(0,5)        RC(0,6) RC(0,7) RC(0,8) RC(0,9) RC(0,10) RC(0,11) RC(0,12) RC(0,13)
+RC(1,0) RC(1,1) RC(1,2) RC(1,3) RC(1,4) RC(1,5)        RC(1,6) RC(1,7) RC(1,8) RC(1,9) RC(1,10) RC(1,11) RC(1,12)
+RC(2,0) RC(2,1) RC(2,2) RC(2,3) RC(2,4) RC(2,5)        RC(2,6) RC(2,7) RC(2,8) RC(2,9) RC(2,10) RC(2,11) RC(2,12) RC(2,13)
+RC(3,0) RC(3,1) RC(3,2) RC(3,3) RC(3,4) RC(3,5)        RC(3,6) RC(3,7) RC(3,8) RC(3,9) RC(3,10) RC(3,11) RC(3,12)
+RC(4,0) RC(4,1) RC(4,2) RC(4,3) RC(4,4) RC(4,5)        RC(4,6) RC(4,7) RC(4,8) RC(4,9) RC(4,10) RC(4,11) RC(4,12) RC(4,13)
+RC(5,0) RC(5,1) RC(5,2) RC(5,3)                                        RC(5,8) RC(5,9) RC(5,10) RC(5,11) RC(5,12) RC(5,13)
+// 숫자패드
+RC(0,14) RC(0,15) RC(0,16) RC(0,17)
+RC(1,14) RC(1,15) RC(1,16) RC(1,17)
+RC(2,14) RC(2,15) RC(2,16) RC(2,17)
+RC(3,14) RC(3,15) RC(3,16)
+RC(4,14) RC(4,15) RC(4,16)
+RC(5,14) RC(5,15) RC(5,16) RC(5,17)
+        >;
+    };
+
+    physical_layout0: physical_layout_0 {
+        compatible = "zmk,physical-layout";
+        display-name = "Default Layout";
+        transform = <&default_transform>;
+    };
+};

@@ -1,0 +1,21 @@
+// 오른쪽 보드 (6x8, 마스터)
+#include "mysplit.dtsi"
+
+// 왼쪽이 6열이라 오른쪽 열은 6번부터 시작
+&default_transform {
+    col-offset = <6>;
+};
+
+// Col0~7 : 100, 011, 104, 106, 031, 029, 002, 115
+&kscan0 {
+    col-gpios
+        = <&pro_micro 6  GPIO_ACTIVE_HIGH>
+        , <&pro_micro 7  GPIO_ACTIVE_HIGH>
+        , <&pro_micro 8  GPIO_ACTIVE_HIGH>
+        , <&pro_micro 9  GPIO_ACTIVE_HIGH>
+        , <&pro_micro 21 GPIO_ACTIVE_HIGH>
+        , <&pro_micro 20 GPIO_ACTIVE_HIGH>
+        , <&pro_micro 19 GPIO_ACTIVE_HIGH>
+        , <&pro_micro 18 GPIO_ACTIVE_HIGH>
+        ;
+};

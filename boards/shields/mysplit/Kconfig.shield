@@ -1,0 +1,10 @@
+# 쉼표 뒤나 이름 안에 공백이 있으면 안 됩니다!
+
+config SHIELD_MYSPLIT_LEFT
+    def_bool $(shields_list_contains,mysplit_left)
+
+config SHIELD_MYSPLIT_RIGHT
+    def_bool $(shields_list_contains,mysplit_right)
+
+config SHIELD_MYSPLIT_NUMPAD
+    def_bool $(shields_list_contains,mysplit_numpad)

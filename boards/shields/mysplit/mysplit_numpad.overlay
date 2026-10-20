@@ -1,0 +1,17 @@
+// 숫자패드 보드 (6x4, 슬레이브2)
+#include "mysplit.dtsi"
+
+// 왼쪽 6열 + 오른쪽 8열 = 14 → 숫자패드 열은 14번부터
+&default_transform {
+    col-offset = <14>;
+};
+
+// Col0~3 : 100, 011, 104, 106  (Row는 다른 보드와 같은 006~024)
+&kscan0 {
+    col-gpios
+        = <&pro_micro 6 GPIO_ACTIVE_HIGH>
+        , <&pro_micro 7 GPIO_ACTIVE_HIGH>
+        , <&pro_micro 8 GPIO_ACTIVE_HIGH>
+        , <&pro_micro 9 GPIO_ACTIVE_HIGH>
+        ;
+};
